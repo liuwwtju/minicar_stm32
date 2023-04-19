@@ -21,7 +21,7 @@ void data_task(void *pvParameters)
 			//此任务以20Hz的频率运行
 			vTaskDelayUntil(&lastWakeTime, F2T(RATE_20_HZ));
 			//Assign the data to be sent
-			//对要进行发送的数据进行赋值
+			//对要进行发送的数据（编码器速度和IMU数据）装载到Send_Data中
 			data_transition(); 
 			USART1_SEND();     //Serial port 1 sends data //串口1发送数据
 			USART3_SEND();     //Serial port 3 (ROS) sends data  //串口3(ROS)发送数据
@@ -44,7 +44,7 @@ void data_transition(void)
 	
 	//According to different vehicle types, different kinematics algorithms were selected to carry out the forward kinematics solution, 
 	//and the three-axis velocity was obtained from each wheel velocity
-	//根据不同车型选择不同运动学算法进行运动学正解，从各车轮速度求出三轴速度
+	//根据不同车型选择不同运动学算法进行运动学正解，从各车轮速度求出三轴速度，将小车的编码器获取的实时速度发送到上位机
 	switch(Car_Mode)
 	{	
 		case Mec_Car:      
